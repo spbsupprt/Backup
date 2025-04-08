@@ -74,12 +74,12 @@
       when: ansible_facts['nodename'] == "backup"
     
     - name: Repository init
-      hosts: CLIENT
       ansible.builtin.command:
         cmd: "borg init --encryption=repokey borg@192.168.122.11:/var/backup"
         creates: "borg@192.168.122.11:/var/backup/README"  # Check that repository created
       environment:
         BORG_PASSPHRASE: "Otus1234"
+      when: ansible_facts['nodename'] == "client"
     
     - name: Create service
       template: 
