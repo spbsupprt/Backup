@@ -29,3 +29,13 @@ Backup
 
 Для сдачи домашнего задания ожидаем настроенные стенд, логи процесса бэкапа и описание процесса восстановления.
 
+---
+
+Дано:
+
+![image](https://github.com/user-attachments/assets/19e60939-869a-4103-84ab-a0b1a5b79ac6)
+
+
+Выполняем подготовленный плейбук:
+
+https://github.com/spbsupprt/Backup/blob/main/backup.yaml
