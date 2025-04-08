@@ -46,9 +46,9 @@
   hosts: CLIENT
   community.crypto.openssh_keypair:
     path: root/.ssh/id_ed25519
-    type:  "{{borg_ssh_key_type}}"
-    owner: "{{ client_user }}"
-    group: "{{ client_user }}"
+    type:  "ed25519"
+    owner: "root"
+    group: "root"
     mode: '0600'
 
 - name: Get public key from client
