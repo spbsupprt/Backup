@@ -3,23 +3,21 @@
   become: true
   tasks:
     - name: install_borg
-      hosts: all
-        apt:
-          name: borgbackup
-          update_cache: yes
-          state: present
+      apt:
+       name: borgbackup
+       update_cache: yes
+       state: present
     
     - name: Create user borg
-      hosts: BACKUP
       user:
         name: borg
         shell: /bin/bash
         create_home: yes
         state: present
         comment: "Backup User"
+      when: ansible_facts['nodename'] == "backup"
 
     - name: setup dir /var/backup
-      hosts: BACKUP
       file:
         path: /var/backup
         state: directory
@@ -27,14 +25,14 @@
         group: borg
         mode: '0755'
         recurse: yes
+      when: ansible_facts['nodename'] == "backup"
 
     - name: clean dir /var/backup 
-      hosts: BACKUP
       shell:
         cmd: "rm -rf /var/backup/* /var/backup/.* 2>/dev/null || true"
-    
+      when: ansible_facts['nodename'] == "backup"
+      
     - name: SSH  Disable confirmation 
-      hosts: CLIENT
       ansible.builtin.copy:
         src: templates//disable_kh.conf
         dest: /etc/ssh/ssh_config.d/disable_check.conf
@@ -44,35 +42,36 @@
       systemd:
         name: ssh.service
         state: restarted
+      when: ansible_facts['nodename'] == "client"
 
     - name: Generate SSH key for client
-      hosts: CLIENT
       community.crypto.openssh_keypair:
         path: root/.ssh/id_ed25519
         type:  "ed25519"
         owner: "root"
         group: "root"
         mode: '0600'
+       when: ansible_facts['nodename'] == "client"
 
     - name: Get public key from client
-      hosts: CLIENT
       ansible.builtin.slurp:
         src: root/.ssh/id_ed25519.pub
         register: public_key
-
+      when: ansible_facts['nodename'] == "client"
+       
     - name: Create directory (if none)
-      hosts: BACKUP
       file:
         path: /home/borg/.ssh"
         state: directory
         mode: 0755
+      when: ansible_facts['nodename'] == "backup"
 
     - name: Add public key client into authorized_keys in backup host
-      hosts: BACKUP
       ansible.posix.authorized_key:
         user: borg  
         key: "{{ public_key.content | b64decode }}"
         state: present
+      when: ansible_facts['nodename'] == "backup"
     
     - name: Repository init
       hosts: CLIENT
@@ -83,31 +82,31 @@
         BORG_PASSPHRASE: "Otus1234"
     
     - name: Create service
-      hosts: CLIENT
       template: 
         src: templates/borg-backup.service
         dest: /etc/systemd/system/borg-backup.service
         mode: 0644
+      when: ansible_facts['nodename'] == "client"
 
     - name: Create timer
-      hosts: CLIENT
       template:
         src: templates/borg-backup.timer
         dest: /etc/systemd/system/borg-backup.timer
         mode: 0644
+      when: ansible_facts['nodename'] == "client"
 
     - name: run and enable timer
-      hosts: CLIENT
       systemd:
         name: borg-backup.timer
         state: started
         enabled: true
         daemon_reload: true
+      when: ansible_facts['nodename'] == "client"
 
     - name: run backup 
-      hosts: CLIENT
       systemd:
         name: borg-backup.service
         state: started
         enabled: true
+      when: ansible_facts['nodename'] == "client"
 ...
