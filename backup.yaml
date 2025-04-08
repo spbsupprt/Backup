@@ -34,7 +34,7 @@
       
     - name: SSH  Disable confirmation 
       ansible.builtin.copy:
-        src: templates//disable_kh.conf
+        src: templates/disable_check.conf
         dest: /etc/ssh/ssh_config.d/disable_check.conf
         owner: root
         group: root
