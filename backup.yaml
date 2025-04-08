@@ -6,13 +6,13 @@
   roles:
     - install
     
-- name: Create service from template
+- name: Create service
   template: 
     src: templates/borg-backup.service
     dest: /etc/systemd/system/borg-backup.service
     mode: 0644
 
-- name: Create timer from template
+- name: Create timer
   template:
     src: templates/borg-backup.timer
     dest: /etc/systemd/system/borg-backup.timer
@@ -25,7 +25,7 @@
     enabled: true
     daemon_reload: true
 
-- name: run backup first time so timer will have first record
+- name: run backup 
   systemd:
     name: borg-backup.service
     state: started
