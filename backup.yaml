@@ -75,9 +75,9 @@
   hosts: CLIENT
   ansible.builtin.command:
     cmd: "borg init --encryption=repokey borg@192.168.122.11:/var/backup"
-    creates: "{{ repo_name }}/README"  # Check that repository created
+    creates: "borg@192.168.122.11:/var/backup/README"  # Check that repository created
   environment:
-    BORG_PASSPHRASE: "{{ borg_repo_password }}"
+    BORG_PASSPHRASE: "Otus1234"
     
 - name: Create service
   hosts: CLIENT
