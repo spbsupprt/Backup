@@ -42,9 +42,9 @@
       when: ansible_facts['nodename'] == "client"
         
     - name: restartssh
-       systemd:
-         name: ssh.service
-         state: restarted
+      systemd:
+        name: ssh.service
+        state: restarted
       when: ansible_facts['nodename'] == "client"
 
     - name: Generate SSH key for client
