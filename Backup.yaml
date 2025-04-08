@@ -1,0 +1,54 @@
+---
+- name: Install Borg 
+  hosts: all
+  gather_facts: true
+  become: true
+  roles:
+    - install
+    
+- name: Create service from template
+  template: 
+    src: templates/borg-backup.service
+    dest: /etc/systemd/system/borg-backup.service
+    mode: 0644
+
+- name: Create timer from template
+  template:
+    src: templates/borg-backup.timer
+    dest: /etc/systemd/system/borg-backup.timer
+    mode: 0644
+
+- name: run and enable timer
+  systemd:
+    name: borg-backup.timer
+    state: started
+    enabled: true
+    daemon_reload: true
+
+- name: run backup first time so timer will have first record
+  systemd:
+    name: borg-backup.service
+    state: started
+    enabled: true
+    
+- name: Configure ssh
+  hosts: BACKUP
+  gather_facts: true
+  become: true
+  roles:
+    - ssh_key
+    
+- name: Repository init
+  ansible.builtin.command:
+    cmd: "borg init --encryption={{encript_type}} {{repo_name}}"
+    creates: "{{ repo_name }}/README"  # Check that repository created
+  environment:
+    BORG_PASSPHRASE: "{{ borg_repo_password }}"
+    
+- name: Install service & timer
+  hosts: CLIENT
+  gather_facts: true
+  become: true
+  roles:
+    - service
+...
