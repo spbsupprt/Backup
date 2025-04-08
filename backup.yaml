@@ -51,7 +51,7 @@
         owner: "root"
         group: "root"
         mode: '0600'
-       when: ansible_facts['nodename'] == "client"
+      when: ansible_facts['nodename'] == "client"
 
     - name: Get public key from client
       ansible.builtin.slurp:
