@@ -39,3 +39,9 @@ Backup
 Выполняем подготовленный плейбук:
 
 https://github.com/spbsupprt/Backup/blob/main/backup.yaml
+
+![image](https://github.com/user-attachments/assets/1b535ac3-1164-436e-a3e0-06ff954a9ba0)
+
+
+Делаем проверки:
+
