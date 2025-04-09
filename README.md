@@ -54,3 +54,9 @@ https://github.com/spbsupprt/Backup/blob/main/backup.yaml
 
 ![image](https://github.com/user-attachments/assets/bfb4f81e-052c-48f3-b4c2-a1455cbf98d9)
 
+
+Логи journalctl -u borg-backup.service :
+
+![image](https://github.com/user-attachments/assets/f37678df-e296-4e1d-985f-48f720c1fe73)
+
+
