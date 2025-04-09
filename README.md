@@ -65,4 +65,4 @@ https://github.com/spbsupprt/Backup/blob/main/backup.yaml
 
 
 
-
+# Сервисы работаю, бекап делается, логи пишутся.
