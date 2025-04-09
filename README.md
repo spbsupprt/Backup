@@ -43,5 +43,14 @@ https://github.com/spbsupprt/Backup/blob/main/backup.yaml
 ![image](https://github.com/user-attachments/assets/1b535ac3-1164-436e-a3e0-06ff954a9ba0)
 
 
-Делаем проверки:
+# Делаем проверки
+
+Смотрим наши сервисы:
+
+![image](https://github.com/user-attachments/assets/6d69866d-4987-4405-9be2-de8223fc3768)
+
+Смотрим наши бекапы:
+
+
+![image](https://github.com/user-attachments/assets/bfb4f81e-052c-48f3-b4c2-a1455cbf98d9)
 
